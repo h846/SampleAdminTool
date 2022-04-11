@@ -53,7 +53,10 @@
     <v-row>
       <v-col cols="3" md="4">
         <p class="ma-0 mb-1 btn-title">Create New</p>
+        <!--
         <v-btn color="primary" width="90" small>Create</v-btn>
+        -->
+        <new-create />
       </v-col>
       <v-col cols="6" md="4">
         <p class="ma-0 mb-1 btn-title">Label List</p>
@@ -75,6 +78,7 @@
 </template>
 
 <script>
+import NewCreate from './newCreate.vue'
 export default {
   name: 'IndexPage',
   data() {
@@ -98,7 +102,6 @@ export default {
           this.result = this.sampleData.filter((val) => {
             return String(val.STY_NUM).indexOf(this.style) !== -1
           })
-
           break
         case 'loc':
           this.result = this.sampleData.filter((val) => {
@@ -116,12 +119,11 @@ export default {
           })
           break
       }
-
       this.$store.commit('setSearchResult', this.result)
-
       console.log(this.result)
     },
   },
+  components: { NewCreate },
 }
 </script>
 <style scoped>

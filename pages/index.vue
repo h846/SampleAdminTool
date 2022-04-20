@@ -22,6 +22,9 @@ export default {
         console.error(e)
       })
   },
+  created() {
+    console.log(this.$dayjs().format('YYYY/MM/DD'))
+  },
 }
 </script>
 

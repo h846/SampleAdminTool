@@ -31,6 +31,8 @@
                 label="NOTE"
                 class="ma-2"
                 outlined
+                disabled
+                :value="i.NOTE"
                 prepend-inner-icon="mdi-comment"
               ></v-textarea>
               <v-card-actions>
@@ -70,7 +72,7 @@
                   </v-btn>
                 </div>
                 <!-- Edit Dialog -->
-                <edit-info />
+                <edit-info :list="editList(i.ID)" />
                 <!-- Remove Dialog -->
                 <v-btn small class="mt-6" color="warning"
                   ><v-icon left dark>mdi-trash-can </v-icon>
@@ -95,6 +97,13 @@ export default {
   computed: {
     resultList() {
       return this.$store.state.searchResult
+    },
+  },
+  methods: {
+    editList(id) {
+      return this.resultList.find((val) => {
+        return val.ID == id
+      })
     },
   },
 }

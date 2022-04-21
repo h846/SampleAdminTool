@@ -9,14 +9,47 @@
     <v-card>
       <v-card-title class="text-h5"> データ更新 </v-card-title>
       <v-card-text>
-        <v-textarea outlined label="NOTE" dense hide-details></v-textarea>
-        <v-text-field
-          class="mt-3"
-          outlined
-          label="LOCATION"
-          dense
-          hide-details
-        ></v-text-field>
+        <v-row>
+          <v-col cols="12">
+            <v-textarea
+              v-model="note"
+              outlined
+              label="NOTE"
+              dense
+              hide-details
+            ></v-textarea>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="location"
+              class="mt-3"
+              outlined
+              label="LOCATION"
+              dense
+              hide-details
+            ></v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-switch
+              class="ma-0"
+              v-model="styPrt"
+              label="Style Label"
+              true-value="1"
+              false-value="0"
+              hide-details
+            ></v-switch>
+          </v-col>
+          <v-col cols="6">
+            <v-switch
+              class="ma-0"
+              v-model="locPrt"
+              label="Loc Label"
+              true-value="1"
+              false-value="0"
+              hide-details
+            ></v-switch>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -33,10 +66,22 @@
 
 <script>
 export default {
+  props: ['list'],
   data() {
     return {
       dialog: false,
+      note: '',
+      location: '',
+      styPrt: null,
+      locPrt: null,
     }
+  },
+  mounted() {
+    console.log(this.list)
+    this.note = this.list.NOTE
+    this.location = this.list.LOCATION
+    this.styPrt = this.list.STY_PRINT_FLG || 0
+    this.locPrt = this.list.LOC_PRINT_FLG || 0
   },
 }
 </script>

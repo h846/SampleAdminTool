@@ -1,10 +1,10 @@
 <template>
   <v-row>
     <v-col cols="12" v-for="(i, idx) in resultList" :key="idx">
-      <v-card class="mt-10 mx-auto" tile outlined min-width="700">
+      <v-card elevation="5" class="mt-10 mx-auto" tile outlined min-width="700">
         <v-container>
           <v-row>
-            <v-col cols="7">
+            <v-col cols="12" md="7">
               <dl class="ma-3">
                 <dt>STYLE</dt>
                 <dd>{{ i.STY_NUM }}</dd>
@@ -26,7 +26,7 @@
                 <dd>{{ i.LOCATION }}</dd>
               </dl>
             </v-col>
-            <v-col cols="5">
+            <v-col cols="12" md="5">
               <v-textarea
                 label="NOTE"
                 class="ma-2"
@@ -69,11 +69,10 @@
                     >
                   </v-btn>
                 </div>
-                <v-btn width="110" class="mt-6 mx-4" color="primary"
-                  ><v-icon small left dark>mdi-application-edit </v-icon>
-                  EDIT
-                </v-btn>
-                <v-btn width="110" class="mt-6 mx-4" color="warning"
+                <!-- Edit Dialog -->
+                <edit-info />
+                <!-- Remove Dialog -->
+                <v-btn small class="mt-6" color="warning"
                   ><v-icon left dark>mdi-trash-can </v-icon>
                   REMOVE
                 </v-btn>
@@ -87,7 +86,9 @@
 </template>
 
 <script>
+import editInfo from './editInfo.vue'
 export default {
+  components: { editInfo },
   data() {
     return {}
   },

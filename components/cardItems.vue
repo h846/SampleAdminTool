@@ -27,14 +27,22 @@
               </dl>
             </v-col>
             <v-col cols="12" md="5">
+              <!--
               <v-textarea
                 label="NOTE"
                 class="ma-2"
                 outlined
-                disabled
                 :value="i.NOTE"
                 prepend-inner-icon="mdi-comment"
               ></v-textarea>
+              -->
+              <div class="note" v-if="!!i.NOTE">
+                <div class="mb-3">
+                  <v-icon>mdi-comment</v-icon>
+                  <span>NOTE</span>
+                </div>
+                {{ i.NOTE }}
+              </div>
               <v-card-actions>
                 <div>
                   <p class="ma-0 text-caption">STYLE</p>
@@ -74,10 +82,7 @@
                 <!-- Edit Dialog -->
                 <edit-info :list="editList(i.ID)" />
                 <!-- Remove Dialog -->
-                <v-btn small class="mt-6" color="warning"
-                  ><v-icon left dark>mdi-trash-can </v-icon>
-                  REMOVE
-                </v-btn>
+                <remove-data :list="editList(i.ID)" />
               </v-card-actions>
             </v-col>
           </v-row>
@@ -89,11 +94,9 @@
 
 <script>
 import editInfo from './editInfo.vue'
+import RemoveData from './removeData.vue'
 export default {
-  components: { editInfo },
-  data() {
-    return {}
-  },
+  components: { editInfo, RemoveData },
   computed: {
     resultList() {
       return this.$store.state.searchResult
@@ -120,5 +123,14 @@ dt {
 }
 dd {
   width: 70%;
+}
+
+/* NOTE */
+.note {
+  padding: 10px;
+  width: 100%;
+  height: 250px;
+  border: 1px solid #333;
+  border-radius: 2px;
 }
 </style>

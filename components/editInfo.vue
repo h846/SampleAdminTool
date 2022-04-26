@@ -56,7 +56,7 @@
         <v-btn color="secondry" text @click="dialog = false">
           キャンセル
         </v-btn>
-        <v-btn color="green darken-1" text @click="dialog = false">
+        <v-btn color="green darken-1" text @click="updateData()">
           更新する
         </v-btn>
       </v-card-actions>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   props: ['list'],
   data() {
@@ -78,10 +79,33 @@ export default {
   },
   mounted() {
     console.log(this.list)
+    this.id = this.list.ID
     this.note = this.list.NOTE
     this.location = this.list.LOCATION
     this.styPrt = this.list.STY_PRINT_FLG || 0
     this.locPrt = this.list.LOC_PRINT_FLG || 0
+  },
+  methods: {
+    async updateData() {
+      const sql = `UPDATE CSNET.CS_SAMPLE_DB SET NOTE = '${
+        this.note
+      }', location = '${this.location}', STY_PRINT_FLG = ${
+        this.styPrt
+      }, LOC_PRINT_FLG = ${this.locPrt}, UPD_DT = '${this.$dayjs().format(
+        'YYYY/MM/DD'
+      )}' WHERE ID = ${this.id}`
+      console.log(sql)
+      await axios
+        .post('http://lejnet/api-test/csnet/sample_item', { sql })
+        .then((res) => {
+          console.log(res.status)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      this.dialog = false
+    },
   },
 }
 </script>

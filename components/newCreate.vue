@@ -74,6 +74,7 @@ export default {
         .post('http://lejnet/api-test/csnet/sample_item', { sql })
         .then((res) => {
           this.dialog = false
+          window.location.reload()
         })
     },
     close() {

@@ -80,7 +80,29 @@
       </v-col>
       <v-col cols="3" md="4">
         <p class="ma-0 mb-1 btn-title">Label Print</p>
-        <v-btn color="error" width="90" small>Label Print</v-btn>
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn small color="red lighten-2" dark v-bind="attrs" v-on="on">
+              Label Print
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+              ラベルの種類を選択
+            </v-card-title>
+            <v-card-text class="text-center">
+              <v-btn>aaaa</v-btn>
+              <v-btn>bbbb</v-btn>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialog = false">
+                CLOSE
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
     <!-- SNACK BAR-->
@@ -107,6 +129,7 @@ export default {
       cName: '',
       result: [],
       snackbar: false,
+      dialog: false,
     }
   },
   computed: {

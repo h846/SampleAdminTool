@@ -91,13 +91,21 @@
             <v-card-title class="text-h5 grey lighten-2">
               ラベルの種類を選択
             </v-card-title>
-            <v-card-text class="text-center">
-              <v-btn>aaaa</v-btn>
-              <v-btn>bbbb</v-btn>
+            <v-card-text class="text-center pt-5">
+              <v-row>
+                <v-col cols="6">
+                  <v-btn width="200" color="primary">商品ラベル印刷</v-btn>
+                </v-col>
+                <v-col cols="6">
+                  <v-btn width="200" color="primary"
+                    >ロケーションラベル印刷</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="dialog = false">
+              <v-btn color="primary" text x-small @click="dialog = false">
                 CLOSE
               </v-btn>
             </v-card-actions>
@@ -119,6 +127,7 @@
 
 <script>
 import NewCreate from './newCreate.vue'
+import CardItems from './cardItems.vue'
 export default {
   name: 'IndexPage',
   data() {
@@ -183,7 +192,7 @@ export default {
       console.log(this.result)
     },
   },
-  components: { NewCreate },
+  components: { NewCreate, CardItems },
 }
 </script>
 <style scoped>

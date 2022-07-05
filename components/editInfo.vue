@@ -34,8 +34,8 @@
               class="ma-0"
               v-model="styPrt"
               label="Style Label"
-              true-value="1"
-              false-value="0"
+              :true-value="1"
+              :false-value="0"
               hide-details
             ></v-switch>
           </v-col>
@@ -44,8 +44,8 @@
               class="ma-0"
               v-model="locPrt"
               label="Loc Label"
-              true-value="1"
-              false-value="0"
+              :true-value="1"
+              :false-value="0"
               hide-details
             ></v-switch>
           </v-col>
@@ -99,12 +99,15 @@ export default {
         .post('http://lejnet/api-test/csnet/sample_item', { sql })
         .then((res) => {
           console.log(res.status)
+
+          location.reload()
         })
         .catch((err) => {
           console.log(err)
         })
-
-      this.dialog = false
+        .finally(() => {
+          this.dialog = false
+        })
     },
   },
 }

@@ -9,6 +9,8 @@ export const mutations = {
       for (const k in val) {
         if (val[k] == 'null') {
           val[k] = ''
+        }else if(k=='STY_PRINT_FLG' || k=='LOC_PRINT_FLG'){
+          val[k] = parseInt(val[k])
         }
       }
       return val

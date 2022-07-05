@@ -1,7 +1,9 @@
 <template></template>
 
 <script>
-export default {}
+export default {
+  layout: 'empty',
+}
 </script>
 
 <style></style>

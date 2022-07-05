@@ -23,7 +23,7 @@ export default {
       })
   },
   created() {
-    console.log(this.$dayjs().format('YYYY/MM/DD'))
+    // console.log(this.$dayjs().format('YYYY/MM/DD'))
   },
 }
 </script>

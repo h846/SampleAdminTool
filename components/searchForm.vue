@@ -64,7 +64,7 @@
               width="90"
               small
               @click="searchItem('style-print')"
-              >Style</v-btn
+              >STYLE</v-btn
             >
           </v-col>
           <v-col cols="5">
@@ -94,10 +94,16 @@
             <v-card-text class="text-center pt-5">
               <v-row>
                 <v-col cols="6">
-                  <v-btn width="200" color="primary">商品ラベル印刷</v-btn>
+                  <v-btn width="200" color="primary" nuxt to="productLablePrint"
+                    >商品ラベル印刷</v-btn
+                  >
                 </v-col>
                 <v-col cols="6">
-                  <v-btn width="200" color="primary"
+                  <v-btn
+                    width="200"
+                    color="primary"
+                    nuxt
+                    to="locationLablePrint"
                     >ロケーションラベル印刷</v-btn
                   >
                 </v-col>

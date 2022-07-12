@@ -103,7 +103,7 @@
                     width="200"
                     color="primary"
                     nuxt
-                    to="locationLablePrint"
+                    to="locationLabelPrint"
                     >ロケーションラベル印刷</v-btn
                   >
                 </v-col>

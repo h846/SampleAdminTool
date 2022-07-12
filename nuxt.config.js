@@ -1,6 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  router: {
+    base: process.env.NODE_ENV === 'development' ? '/' : '/CSApp/SampleAdmin/', //'/CSNet/test/campaign_search/',
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: true,
 

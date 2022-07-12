@@ -21,7 +21,7 @@
       </v-row>
     </div>
     <div style="text-align: center; padding-top: 50px">
-      <v-btn to="/" nuxt x-large>印刷済</v-btn>
+      <v-btn to="/" nuxt x-large>トップページへ</v-btn>
     </div>
   </div>
 </template>
@@ -44,11 +44,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap');
-body {
-  width: 100%;
-}
+
 .sheet {
   page-break-after: always;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
 }
 
 /* hide in print */
@@ -57,6 +60,7 @@ body {
     display: none;
   }
   .sheet {
+    // border: 1px solid #000;
     width: 210mm;
     height: 297mm;
     display: block;

@@ -1,3 +1,4 @@
+import axios from 'axios'
 export const state = () => ({
   sampleData: [],
   searchResult: [],
@@ -22,4 +23,16 @@ export const mutations = {
   },
 }
 
-export const actions = {}
+export const actions = {
+  getSampleData: async function({commit}){
+    return axios
+      .post('http://lejnet/api-test/csnet/sample_item/')
+      .then((res) => {
+        commit('setSampleData', res.data)
+        console.log(res.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+}

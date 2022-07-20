@@ -117,6 +117,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <nuxt-link to="/PrintManual.pdf" target="_blank">印刷方法</nuxt-link>
       </v-col>
     </v-row>
     <!-- SNACK BAR-->
@@ -145,6 +146,7 @@ export default {
       result: [],
       snackbar: false,
       dialog: false,
+      // pdfPath: require('~/assets/PrintManual.pdf'),
     }
   },
   computed: {

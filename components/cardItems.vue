@@ -99,7 +99,18 @@ export default {
   components: { editInfo, RemoveData },
   computed: {
     resultList() {
-      return this.$store.state.searchResult
+      let sResult = [...this.$store.state.searchResult]
+      let list = [...this.$store.state.sampleData]
+
+      list.sort(function (a, b) {
+        if (a.ID > b.ID) return -1
+        if (a.ID < b.ID) return 1
+        return 0
+      })
+
+      list = list.slice(0, 9)
+      console.log(list)
+      return sResult.length === 0 ? list : sResult
     },
   },
   methods: {

@@ -47,10 +47,12 @@ export default {
 
 .sheet {
   page-break-after: always;
+  font-family: 'Kiwi Maru', serif;
+  font-size: 15px;
 }
 
 @page {
-  size: A4 portrait;
+  size: A4; // portrait;
   margin: 0;
 }
 
@@ -65,8 +67,7 @@ export default {
     height: 297mm;
     display: block;
     padding: 21.2mm 18.6mm;
-    font-family: 'Kiwi Maru', serif;
-    font-size: 15px;
+
     .cell {
       padding: 5mm 3mm;
       width: 86.4mm;

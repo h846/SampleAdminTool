@@ -96,10 +96,11 @@ export default {
       )}' WHERE ID = ${this.id}`
       console.log(sql)
       await axios
-        .post('http://lejnet/api-test/csnet/sample_item', { sql })
+        .post('http://lejnet/api-test/csnet/sample_item', {
+          sql,
+        })
         .then((res) => {
           console.log(res.status)
-
           location.reload()
         })
         .catch((err) => {

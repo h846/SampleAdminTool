@@ -33,7 +33,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.printList)
+    // console.log(this.printList)
     window.print()
   },
 }
@@ -43,15 +43,15 @@ export default {
 
 .sheet {
   page-break-after: always;
-}
-
-.location {
-  font-size: 38px;
-  text-align: center;
+  font-family: 'Kiwi Maru', serif;
+  .location {
+    font-size: 50px;
+    text-align: center;
+  }
 }
 
 @page {
-  size: A4 portrait;
+  size: A4;
   margin: 0;
 }
 
@@ -65,7 +65,7 @@ export default {
     width: 210mm;
     height: 297mm;
     display: block;
-    font-family: 'Kiwi Maru', serif;
+
     .cell {
       padding: 5mm 5mm;
       width: 69.67mm;

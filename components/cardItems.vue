@@ -27,15 +27,6 @@
               </dl>
             </v-col>
             <v-col cols="12" md="5">
-              <!--
-              <v-textarea
-                label="NOTE"
-                class="ma-2"
-                outlined
-                :value="i.NOTE"
-                prepend-inner-icon="mdi-comment"
-              ></v-textarea>
-              -->
               <div class="note" v-if="!!i.NOTE">
                 <div class="mb-3">
                   <v-icon>mdi-comment</v-icon>
@@ -80,9 +71,10 @@
                   </v-btn>
                 </div>
                 <!-- Edit Dialog -->
-                <edit-info :list="editList(i.ID)" />
+                <edit-info :id="i.ID" />
+                <!-- 401059 -->
                 <!-- Remove Dialog -->
-                <remove-data :list="editList(i.ID)" />
+                <remove-data :id="i.ID" />
               </v-card-actions>
             </v-col>
           </v-row>
@@ -94,30 +86,14 @@
 
 <script>
 import editInfo from './editInfo.vue'
-import RemoveData from './removeData.vue'
+import removeData from './removeData.vue'
 export default {
-  components: { editInfo, RemoveData },
+  components: { editInfo, removeData },
   computed: {
-    resultList() {
-      let sResult = [...this.$store.state.searchResult]
-      let list = [...this.$store.state.sampleData]
-
-      list.sort(function (a, b) {
-        if (a.ID > b.ID) return -1
-        if (a.ID < b.ID) return 1
-        return 0
-      })
-
-      list = list.slice(0, 9)
-      console.log(list)
-      return sResult.length === 0 ? list : sResult
-    },
-  },
-  methods: {
-    editList(id) {
-      return this.resultList.find((val) => {
-        return val.ID == id
-      })
+    resultList: function () {
+      return this.$store.state.searchResult.length === 0
+        ? this.$store.state.sampleData.slice(0, 19)
+        : this.$store.state.searchResult
     },
   },
 }

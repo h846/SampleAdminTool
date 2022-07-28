@@ -67,24 +67,44 @@
 <script>
 import axios from 'axios'
 export default {
-  props: ['list'],
+  props: ['id'],
   data() {
     return {
       dialog: false,
       note: '',
       location: '',
-      styPrt: null,
-      locPrt: null,
+      styPrt: '',
+      locPrt: '',
     }
   },
-  mounted() {
-    console.log(this.list)
-    this.id = this.list.ID
+
+  computed: {
+    list: function () {
+      return this.$store.getters.getSampleData
+        .filter((val) => {
+          return val.ID == this.id
+        })
+        .pop()
+    },
+  },
+
+  created() {
+    // console.log(this.$store.getters.getSampleData)
     this.note = this.list.NOTE
     this.location = this.list.LOCATION
-    this.styPrt = this.list.STY_PRINT_FLG || 0
-    this.locPrt = this.list.LOC_PRINT_FLG || 0
+    this.styPrt = this.list.STY_PRINT_FLG
+    this.locPrt = this.list.LOC_PRINT_FLG
   },
+
+  watch: {
+    list(val) {
+      this.note = val.NOTE
+      this.location = val.LOCATION
+      this.styPrt = val.STY_PRINT_FLG
+      this.locPrt = val.LOC_PRINT_FLG
+    },
+  },
+
   methods: {
     async updateData() {
       const sql = `UPDATE CSNET.CS_SAMPLE_DB SET NOTE = '${
@@ -101,13 +121,13 @@ export default {
         })
         .then((res) => {
           console.log(res.status)
-          location.reload()
         })
         .catch((err) => {
           console.log(err)
         })
         .finally(() => {
           this.dialog = false
+          location.reload()
         })
     },
   },

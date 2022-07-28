@@ -143,61 +143,55 @@ export default {
       loc: '',
       cCode: '',
       cName: '',
-      result: [],
       snackbar: false,
       dialog: false,
-      // pdfPath: require('~/assets/PrintManual.pdf'),
     }
-  },
-  computed: {
-    sampleData() {
-      return this.$store.state.sampleData
-    },
   },
   methods: {
     searchItem(type) {
+      let list = [...this.$store.state.sampleData]
+      let result
+      // console.log(list)
       switch (type) {
         case 'style':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return String(val.STY_NUM).indexOf(this.style) !== -1
           })
           break
         case 'loc':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return String(val.LOCATION).indexOf(this.loc) !== -1
           })
           break
         case 'cCode':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return String(val.CLR).indexOf(this.cCode) !== -1
           })
           break
         case 'cName':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return String(val.CLR_DSC_JP).indexOf(this.cName) !== -1
           })
           break
         case 'style-print':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return val.STY_PRINT_FLG == '1'
           })
           break
         case 'location-print':
-          this.result = this.sampleData.filter((val) => {
+          result = list.filter((val) => {
             return val.LOC_PRINT_FLG == '1'
           })
 
           break
       }
-      if (this.result.length == 0) {
+
+      if (result.length == 0) {
         this.snackbar = true
       }
 
-      this.$store.commit(
-        'setSearchResult',
-        JSON.parse(JSON.stringify(this.result))
-      )
-      console.log(this.result)
+      this.$store.commit('setSearchResult', result)
+      console.log(result)
     },
   },
   components: { NewCreate, CardItems },

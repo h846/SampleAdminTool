@@ -4,6 +4,12 @@ export const state = () => ({
   searchResult: [],
 })
 
+export const getters={
+  getSampleData(state){
+    return state.sampleData;
+  }
+}
+
 export const mutations = {
   setSampleData(state, data) {
     const result = data.map((val) => {
@@ -16,20 +22,25 @@ export const mutations = {
       }
       return val
     })
+
+    result.sort(function (a, b) {
+        return parseInt(b.ID) - parseInt(a.ID);
+      })
+
     state.sampleData = result
   },
-  setSearchResult(state, data) {
-    state.searchResult = data
-  },
+  setSearchResult(state,data){
+    state.searchResult = data;
+  }
 }
 
 export const actions = {
   getSampleData: async function({commit}){
-    return axios
+    await axios
       .post('http://lejnet/api-test/csnet/sample_item/')
       .then((res) => {
         commit('setSampleData', res.data)
-        console.log(res.data)
+        // console.log(res.data)
       })
       .catch((e) => {
         console.error(e)

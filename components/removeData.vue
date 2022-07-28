@@ -34,7 +34,7 @@
 <script>
 import axios from 'axios'
 export default {
-  props: ['list'],
+  props: ['id'],
   data() {
     return {
       dialog: false,
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async removeData() {
-      const id = this.list.ID
+      const id = this.id
       const sql = `DELETE FROM CSNET.CS_SAMPLE_DB WHERE ID = ${id}`
       await axios
         .post('http://lejnet/api-test/csnet/sample_item', { sql })

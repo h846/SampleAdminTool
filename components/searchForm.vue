@@ -51,11 +51,18 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="3" md="4">
+      <v-col cols="2" md="2">
         <p class="ma-0 mb-1 btn-title">Create New</p>
         <New-Create />
       </v-col>
-      <v-col cols="6" md="4">
+      <v-col cols="2" md="2">
+        <p class="ma-0 mb-1 btn-title">一括解除</p>
+        <v-btn color="indigo" dark small @click="allPrtFlgRelease()">
+          <v-icon small>mdi-printer</v-icon
+          ><span class="ml-2">Release</span></v-btn
+        >
+      </v-col>
+      <v-col cols="5" md="4">
         <p class="ma-0 mb-1 btn-title">Label List</p>
         <v-row>
           <v-col cols="5">
@@ -108,6 +115,18 @@
                   >
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-select
+                    v-model="selectedItem"
+                    :items="items"
+                    outlined
+                    @change="changeStartPosition"
+                    label="印刷位置を指定してください"
+                  >
+                  </v-select>
+                </v-col>
+              </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -133,6 +152,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import NewCreate from './newCreate.vue'
 import CardItems from './cardItems.vue'
 export default {
@@ -145,8 +166,14 @@ export default {
       cName: '',
       snackbar: false,
       dialog: false,
+      selectedItem: 0,
+      items: [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20,
+      ],
     }
   },
+
   methods: {
     searchItem(type) {
       let list = [...this.$store.state.sampleData]
@@ -192,6 +219,31 @@ export default {
 
       this.$store.commit('setSearchResult', result)
       console.log(result)
+    },
+    changeStartPosition() {
+      this.$store.commit('setPrintStartPosition', this.selectedItem)
+    },
+    async allPrtFlgRelease() {
+      let sql =
+        'UPDATE CSNET.CS_SAMPLE_DB SET STY_PRINT_FLG = 0, LOC_PRINT_FLG = 0'
+      await axios
+        .post('http://lejnet/api-test/csnet/sample_item', {
+          sql,
+        })
+        .then((res) => {
+          this.$store.dispatch('getSampleData').then(() => {
+            let sampleData = this.$store.getters.getSampleData
+            let searchResult = this.$store.getters.getSearchResult
+            // if it has already been searched
+            if (searchResult.length > 0) {
+              let result = sampleData.filter((val) => {
+                return searchResult.find((e) => e.ID == val.ID)
+              })
+              this.$store.commit('setSearchResult', result)
+              console.log({ result })
+            }
+          })
+        })
     },
   },
   components: { NewCreate, CardItems },

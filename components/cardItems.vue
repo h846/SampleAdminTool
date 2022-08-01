@@ -38,6 +38,7 @@
                 <div>
                   <p class="ma-0 text-caption">STYLE</p>
                   <v-btn
+                    @click="updtFlg(i, 'STY')"
                     small
                     class="mr-5"
                     fab
@@ -56,6 +57,7 @@
                 <div>
                   <p class="ma-0 text-caption">LOCATION</p>
                   <v-btn
+                    @click="updtFlg(i, 'LOC')"
                     small
                     fab
                     dark
@@ -85,6 +87,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import editInfo from './editInfo.vue'
 import removeData from './removeData.vue'
 export default {
@@ -94,6 +98,41 @@ export default {
       return this.$store.state.searchResult.length === 0
         ? this.$store.state.sampleData.slice(0, 19)
         : this.$store.state.searchResult
+    },
+  },
+  methods: {
+    async updtFlg(item, flgType) {
+      let flg, sql
+      if (flgType == 'STY') {
+        flg = parseInt(item.STY_PRINT_FLG) == 1 ? 0 : 1
+        sql = `UPDATE CSNET.CS_SAMPLE_DB SET STY_PRINT_FLG = ${flg} WHERE ID = ${item.ID}`
+      } else if ((flgType = 'LOC')) {
+        flg = parseInt(item.LOC_PRINT_FLG) == 1 ? 0 : 1
+        sql = `UPDATE CSNET.CS_SAMPLE_DB SET LOC_PRINT_FLG = ${flg} WHERE ID = ${item.ID}`
+      }
+
+      await axios
+        .post('http://lejnet/api-test/csnet/sample_item', {
+          sql,
+        })
+        .then((res) => {
+          console.log(res.status)
+          this.$store.dispatch('getSampleData').then(() => {
+            let sampleData = this.$store.getters.getSampleData
+            let searchResult = this.$store.getters.getSearchResult
+            // if it has already been searched
+            if (searchResult.length > 0) {
+              let result = sampleData.filter((val) => {
+                return searchResult.find((e) => e.ID == val.ID)
+              })
+              this.$store.commit('setSearchResult', result)
+              console.log({ result })
+            }
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
   },
 }

@@ -1,17 +1,17 @@
 <template>
   <div class="sheets">
-    <div class="sheet">
+    <div class="sheet" v-for="(item, idx) in printList" :key="idx">
       <v-row no-gutters>
-        <v-col cols="4" v-for="(item, idx) in printList" :key="idx">
+        <v-col cols="4" v-for="(i, idx) in item" :key="idx">
           <div class="cell">
-            <div class="location">{{ item.LOCATION }}</div>
-            <div>
-              <span v-if="item.STY_NUM !== ''">{{ item.STY_NUM }} /</span>
-              <span v-if="item.STY_NAME_JP !== ''"
-                >{{ item.STY_NAME_JP }} /</span
-              >
-              <span v-if="item.CLR_DSC_JP !== ''">{{ item.CLR_DSC_JP }}</span>
-            </div>
+            <template v-if="i !== ''">
+              <div class="location">{{ i.LOCATION }}</div>
+              <div>
+                <span v-if="i.STY_NUM !== ''">{{ i.STY_NUM }} /</span>
+                <span v-if="i.STY_NAME_JP !== ''">{{ i.STY_NAME_JP }} /</span>
+                <span v-if="i.CLR_DSC_JP !== ''">{{ i.CLR_DSC_JP }}</span>
+              </div>
+            </template>
           </div>
         </v-col>
       </v-row>
@@ -27,9 +27,22 @@ export default {
   layout: 'empty',
   computed: {
     printList: function () {
-      return this.$store.state.sampleData.filter((val) => {
+      let list = this.$store.state.sampleData.filter((val) => {
         return val.LOC_PRINT_FLG === 1
       })
+
+      // Get print start position
+      let startPos = this.$store.getters.getPrintStartPosition
+      // Enter blank data to shift the print start position
+      for (let i = 0; i < startPos; i++) {
+        list.unshift('')
+      }
+      // Separate data by 10 cases.
+      let ary = []
+      for (let i = 0; i < list.length; i += 21) {
+        ary.push(list.slice(i, i + 21))
+      }
+      return ary
     },
   },
   mounted() {
@@ -39,8 +52,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap');
-
 .sheet {
   page-break-after: always;
   font-family: 'Kiwi Maru', serif;

@@ -1,21 +1,23 @@
 <template>
   <div class="sheets">
-    <div class="sheet">
+    <div class="sheet" v-for="(item, idx) in printList" :key="idx">
       <v-row no-gutters>
-        <v-col cols="6" v-for="(item, idx) in printList" :key="idx">
+        <v-col cols="6" v-for="(i, idx) in item" :key="idx">
           <div class="cell">
-            <div>
-              <span>商品番号: </span><span>{{ item.STY_NUM }}</span>
-            </div>
-            <div>
-              <span>{{ item.STY_NAME_JP }} </span>
-            </div>
-            <div>
-              <span>カラー: </span><span>{{ item.CLR_DSC_JP }}</span>
-            </div>
-            <div>
-              <span>サイズ: </span><span>{{ item.SIZ }}</span>
-            </div>
+            <template v-if="i !== ''">
+              <div>
+                <span>商品番号: </span><span>{{ i.STY_NUM }}</span>
+              </div>
+              <div>
+                <span>{{ i.STY_NAME_JP }} </span>
+              </div>
+              <div>
+                <span>カラー: </span><span>{{ i.CLR_DSC_JP }}</span>
+              </div>
+              <div>
+                <span>サイズ: </span><span>{{ i.SIZ }}</span>
+              </div>
+            </template>
           </div>
         </v-col>
       </v-row>
@@ -31,20 +33,31 @@ export default {
   layout: 'empty',
   computed: {
     printList: function () {
-      return this.$store.state.sampleData.filter((val) => {
+      // Get data with print flag 1.
+      let list = this.$store.state.sampleData.filter((val) => {
         return val.STY_PRINT_FLG === 1
       })
+      // Get print start position
+      let startPos = this.$store.getters.getPrintStartPosition
+      // Enter blank data to shift the print start position
+      for (let i = 0; i < startPos; i++) {
+        list.unshift('')
+      }
+      // Separate data by 10 cases.
+      let ary = []
+      for (let i = 0; i < list.length; i += 10) {
+        ary.push(list.slice(i, i + 10))
+      }
+      return ary
     },
   },
   mounted() {
-    console.log(this.printList)
+    // console.log(this.printList, this.$store.getters.getPrintStartPosition)
     window.print()
   },
 }
 </script>
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap');
-
 .sheet {
   page-break-after: always;
   font-family: 'Kiwi Maru', serif;

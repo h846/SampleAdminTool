@@ -64,9 +64,9 @@ export default {
         alert('SKUもしくはLocationを入力してください。')
         return
       }
-      let sql = `INSERT INTO CSNET.CS_SAMPLE_DB(SKU_NUM, LOCATION, NOTE, ENT_DT) VALUES ('${
+      let sql = `INSERT INTO CSNET.CS_SAMPLE_DB(SKU_NUM, LOCATION, NOTE, STY_PRINT_FLG, LOC_PRINT_FLG, ENT_DT) VALUES ('${
         this.sku
-      }','${this.location}','${this.description}','${this.$dayjs().format(
+      }','${this.location}','${this.description}', 1, 1,'${this.$dayjs().format(
         'YYYY/MM/DD'
       )}')`
 
@@ -74,7 +74,8 @@ export default {
         .post('http://lejnet/api-test/csnet/sample_item', { sql })
         .then((res) => {
           this.dialog = false
-          window.location.reload()
+          this.$store.dispatch('getSampleData')
+          // window.location.reload()
         })
     },
     close() {

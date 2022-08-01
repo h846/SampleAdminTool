@@ -29,26 +29,6 @@
               hide-details
             ></v-text-field>
           </v-col>
-          <v-col cols="6">
-            <v-switch
-              class="ma-0"
-              v-model="styPrt"
-              label="Style Label"
-              :true-value="1"
-              :false-value="0"
-              hide-details
-            ></v-switch>
-          </v-col>
-          <v-col cols="6">
-            <v-switch
-              class="ma-0"
-              v-model="locPrt"
-              label="Loc Label"
-              :true-value="1"
-              :false-value="0"
-              hide-details
-            ></v-switch>
-          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
@@ -73,8 +53,6 @@ export default {
       dialog: false,
       note: '',
       location: '',
-      styPrt: '',
-      locPrt: '',
     }
   },
 
@@ -92,16 +70,12 @@ export default {
     // console.log(this.$store.getters.getSampleData)
     this.note = this.list.NOTE
     this.location = this.list.LOCATION
-    this.styPrt = this.list.STY_PRINT_FLG
-    this.locPrt = this.list.LOC_PRINT_FLG
   },
 
   watch: {
     list(val) {
       this.note = val.NOTE
       this.location = val.LOCATION
-      this.styPrt = val.STY_PRINT_FLG
-      this.locPrt = val.LOC_PRINT_FLG
     },
   },
 
@@ -109,9 +83,9 @@ export default {
     async updateData() {
       const sql = `UPDATE CSNET.CS_SAMPLE_DB SET NOTE = '${
         this.note
-      }', location = '${this.location}', STY_PRINT_FLG = ${
-        this.styPrt
-      }, LOC_PRINT_FLG = ${this.locPrt}, UPD_DT = '${this.$dayjs().format(
+      }', location = '${
+        this.location
+      }', STY_PRINT_FLG = 1, LOC_PRINT_FLG = 1, UPD_DT = '${this.$dayjs().format(
         'YYYY/MM/DD'
       )}' WHERE ID = ${this.id}`
       console.log(sql)
@@ -120,14 +94,26 @@ export default {
           sql,
         })
         .then((res) => {
-          console.log(res.status)
+          this.$store.dispatch('getSampleData').then(() => {
+            let sampleData = this.$store.getters.getSampleData
+            let searchResult = this.$store.getters.getSearchResult
+            // if it has already been searched
+            if (searchResult.length > 0) {
+              let result = sampleData.filter((val) => {
+                return searchResult.find((e) => e.ID == val.ID)
+              })
+              this.$store.commit('setSearchResult', result)
+              console.log({ result })
+            }
+          })
         })
         .catch((err) => {
           console.log(err)
         })
         .finally(() => {
           this.dialog = false
-          location.reload()
+
+          // location.reload()
         })
     },
   },

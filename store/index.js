@@ -2,11 +2,18 @@ import axios from 'axios'
 export const state = () => ({
   sampleData: [],
   searchResult: [],
+  printStartPosition:0
 })
 
 export const getters={
   getSampleData(state){
     return state.sampleData;
+  },
+  getSearchResult(state){
+    return state.searchResult;
+  },
+  getPrintStartPosition(state){
+    return state.printStartPosition;
   }
 }
 
@@ -31,6 +38,9 @@ export const mutations = {
   },
   setSearchResult(state,data){
     state.searchResult = data;
+  },
+  setPrintStartPosition(state,data){
+    state.printStartPosition = data;
   }
 }
 
